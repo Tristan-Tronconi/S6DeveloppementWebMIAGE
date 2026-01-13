@@ -128,6 +128,7 @@ li.quatrieme:hover {
 
 .bizarre2 {
     flex-direction: column;
+    width: 500px;
 }.bizarre2Enfant {
     align-self: center;
     display: flex;
@@ -135,14 +136,27 @@ li.quatrieme:hover {
 }
 
 .bizarre2Enfant:first-of-type {
-    justify-content: flex-start;
+    justify-content: center;
+}.bizarre2Enfant:first-of-type>*:first-child {
+    margin-right: auto;
+}.bizarre2Enfant:first-of-type>*:last-child {
+    margin-left: auto;
 }
 .bizarre2Enfant:nth-of-type(2) {
     justify-content: center;
 }
 .bizarre2Enfant:nth-of-type(3) {
-    justify-content: flex-end;
+    justify-content: center;
+}.bizarre2Enfant:nth-of-type(3)>*:not(:first-child):not(:last-child) {
+    margin-inline: 30px;
 }
 .bizarre2Enfant:nth-of-type(4) {
     justify-content: space-between;
+}
+.bizarre2Enfant > .cercle:not(:empty) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
 }
