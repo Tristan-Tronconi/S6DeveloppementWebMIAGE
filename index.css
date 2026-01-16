@@ -3,6 +3,11 @@ h1 {
     color: #333;
 }
 
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
 body>div {
     background-color: #f8f9fa;
     border-radius: 15px;
@@ -13,7 +18,6 @@ body>div {
     overflow: hidden;
 }
 
-/* Make ul/ol use flex column so we can use gap for consistent spacing */
 ul,
 ol {
     list-style: none;
@@ -22,7 +26,7 @@ ol {
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: 2px; /* <-- 2px spacing between li */
+    gap: 2px;
 }
 
 li {
@@ -151,6 +155,9 @@ li.quatrieme:hover {
     margin-inline: 30px;
 }
 .bizarre2Enfant:nth-of-type(4) {
+    justify-content: space-around;
+}
+.bizarre2Enfant:nth-of-type(5) {
     justify-content: space-between;
 }
 .bizarre2Enfant > .cercle:not(:empty) {
@@ -159,4 +166,119 @@ li.quatrieme:hover {
     justify-content: center;
     text-align: center;
     color: white;
+}
+
+/* navbar */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    cursor: pointer;
+    background: none;
+    border: none;
+    box-shadow: none;
+    color: white !important;
+}
+
+nav button {
+    background-color: white;
+    color: #007BFF;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s ease-out;
+}
+
+nav button:hover {
+    background-color: #0056b3;
+    color: white;
+    transform: scale(1.1);
+}
+
+/*produits*/
+
+.prod_container {
+    padding-inline: 10px;
+    margin-top: 20px;
+    width: 500px;
+    overflow: hidden;
+}
+
+.produits {
+    animation: scrollProduits 20s linear infinite;
+    scrollbar-width: none; 
+    display: flex;
+    gap: 20px;
+    overflow-x: visible;
+    scrollbar-width: thin;
+    justify-content: center;
+    width: 100%;
+    justify-content: flex-start;
+}/*todo mettre du scroll auto par animation*/
+
+.produits:hover {
+    animation-play-state: paused;
+}
+
+.produits>div {
+    background: linear-gradient(to bottom, #0000ff, #84a9ed);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    padding: 15px;
+    min-width: 100px;
+    min-height: 150px;
+    color: white;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.produits>div:hover {
+    transform: scale(1.05);
+}
+
+.produits>*:first-child {
+    background: linear-gradient(to bottom, #ff0000, #ed8484);
+}
+
+.produits h1 {
+    color: white;
+}
+
+/* animation scroll produits */
+
+@keyframes scrollProduits {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
