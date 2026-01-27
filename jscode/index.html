@@ -4,14 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav><div class="navchild"></div></nav>
+    <div class="navText"></div>
     <button id="btn">Click me</button>
     <p id="result"></p>
+    <button id="btnColor">change color</button>
+    <div id="div"></div>
+    <div id="pousepos">marche pas</div>
+
+    <form action="" id="formBase">
+        <input type="text" id="inputText" placeholder="text1">
+        <input type="text" id="inputText2" placeholder="text2">
+        <input type="submit" id="submitBtn" value="valider">
+    </form>
+    <div id="resultatForm"></div>
+    <div class="calculatrice">
+        <button class="zero">0</button>
+        <button class="un">1</button>
+        <button class="deux">2</button>
+        <button class="trois">3</button>
+        <button class="quatre">4</button>
+        <button class="cinq">5</button>
+        <button class="six">6</button>
+        <button class="sept">7</button>
+        <button class="huit">8</button>
+        <button class="neuf">9</button>
+        <button class="plus">+</button>
+        <button class="moins">-</button>
+        <button class="fois">*</button>
+        <button class="divise">/</button>
+        <button class="egal">=</button>
+    </div>
     <script src="script.js">
-        document.getElementById('btn').addEventListener('click', function() {
-            document.getElementById('result').textContent = 'Button was cliqué';
-        });
     </script>
 </body>
 </html>
