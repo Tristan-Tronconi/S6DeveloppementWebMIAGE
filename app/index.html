@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page acceuil</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href=""><img src="./assets/images/template/Logo.png" alt="Logo"></a>
+            <div class="navLinks">
+                <a href="index.html">Accueil</a>
+                <a href="about.html">À propos</a>
+                <div class="account" id="account-btn">
+                    <img src="./assets/images/Icone login.png" alt="Icone account">
+                    <p class="accountName"></p>
+                </div>
+            </div>
+            <div class="accountChoice popup" id="popup-account">
+                <h1>Choisisser un mode de connexion</h1>
+                <div class="buttons">
+                    <button id="loginButton">Se connecter</button>
+                    <button id="signupButton">S'inscrire</button>
+                </div>
+                <div class="close">x</div>
+            </div>
+            <div class="login popup" id="popup-login">
+                <h1>Se connecter</h1>
+                <form id="loginForm">
+                    <input type="text" id="loginUsername" placeholder="Nom d'utilisateur" required>
+                    <input type="password" id="loginPassword" placeholder="Mot de passe" required>
+                    <button type="submit">Connexion</button>
+                </form>
+                <div class="close">x</div>
+            </div>
+            <div class="signup popup" id="popup-signup">
+                <h1>S'inscrire</h1>
+                <form id="signupForm">
+                    <input type="text" id="signupUsername" placeholder="Nom d'utilisateur" required>
+                    <input type="password" id="signupPassword" placeholder="Mot de passe" required>
+                    <button type="submit">Inscription</button>
+                </form>
+                <div class="close">x</div>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="baniere">
+            <img src="./assets/images/template/banner.png" alt="banniere du jeu">
+        </div>
+        <div class="presentation">
+            <h1>Le projet</h1>
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sint mollitia eligendi ex numquam doloremque dolor, provident iste assumenda error vitae voluptatum delectus porro soluta nulla itaque suscipit quas fugit tenetur.
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Porro beatae voluptate facilis, consequatur ratione molestias voluptas voluptates quos rem, assumenda obcaecati earum accusantium. Officiis illum ea architecto, dolores provident vero!
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus vitae harum eaque blanditiis maiores autem expedita voluptatem animi, at aperiam dolore, voluptatibus neque dolores vero error iusto esse adipisci amet!
+            </p>
+        </div>
+        <div class="jeux">
+            <div class="titre">
+                <h1>Nos jeux</h1>
+                <div class="type">
+                    <p>PC</p>
+                    <p>Console</p>
+                    <p>Mobile</p>
+                </div>
+            </div>
+            <div class="contenu">
+                <img src="./assets/images/template/game1.png" alt="jeu1">
+                <img src="./assets/images/template/game2.png" alt="jeu2">
+                <img src="./assets/images/template/game3.png" alt="jeu3">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2026 Mon Site Web. Tous droits réservés.</p>
+        <div class="info">
+            <a href="contact.html">Contactez-nous</a>
+            <div class="reseaux">
+                <a href="#">Linkedin</a>
+            </div>
+        </div>
+    </footer>
+    <script src="./js/main.js"></script>
+</body>
+</html>
