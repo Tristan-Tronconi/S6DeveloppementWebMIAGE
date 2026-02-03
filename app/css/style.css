@@ -138,6 +138,12 @@ body .popupVisible .close {
     outline: 2px solid #fcaf17;
 }
 
+.popupVisible .erreur {
+    color: red;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
 
 /* main content */
 
@@ -194,6 +200,9 @@ body .popupVisible .close {
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
+}.jeux .contenu a{
+    text-decoration: none;
+    width: fit-content;
 } .jeux .contenu img:hover {
     scale: 1.05;
     box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);

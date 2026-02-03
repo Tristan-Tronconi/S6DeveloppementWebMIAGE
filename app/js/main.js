@@ -39,6 +39,13 @@ for (let btn of document.getElementsByClassName("close")) {
     });
 }
 
+for (let e of document.getElementsByClassName("popup")) {//ajout des composants commun aux popup
+    let close = document.createElement("div");
+    close.className = "close";
+    close.innerHTML = "x";
+    e.appendChild(close);
+}
+
 /* todo ajouter mdp oublié et pas encore de compte */
 /* todo ajouter le refus de connexion */
 /* todo ajouter la deconnexion */
@@ -101,8 +108,9 @@ document.getElementById("signupForm").addEventListener("submit", async function 
     const password = document.getElementById("signupPassword").value;
     if (!username || !password) return;
     const users = getUsers();
-    if (users.find(u => u.username === username)) { /* todo ajouter le refus d'inscription sans alert */
-        alert("Utilisateur déjà existant");
+    if (users.find(u => u.username === username)) {
+        e.target.querySelector(".erreur").textContent = "Utilisateur déjà existant";
+        
         return;
     }
     const passwordHash = await hashPassword(password);
