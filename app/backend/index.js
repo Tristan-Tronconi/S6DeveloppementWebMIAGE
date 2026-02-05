@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 connectDB();
 
 const path = require("path");
-app.use(express.static(path.join(__dirname, "../frontend")));
+app.use(express.static(path.join(__dirname, "../frontend/*")));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/acceuil/index.html"));
