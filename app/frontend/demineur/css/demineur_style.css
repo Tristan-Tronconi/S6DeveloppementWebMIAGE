@@ -15,14 +15,13 @@ body {
 .cell {
     width: 32px;
     height: 32px;
-    background: #ffffff;
+    background: linear-gradient(130deg, #ffffff, #a19a90);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     font-weight: bold;
     user-select: none;
-    /* border: 1px solid #555; */
 }
 
 .cell.revealed {

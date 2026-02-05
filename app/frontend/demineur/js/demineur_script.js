@@ -1,3 +1,4 @@
+//import './grille.js';
 const game = document.getElementById("game");
 const startBtn = document.getElementById("start");
 
@@ -5,9 +6,10 @@ let size, mineCount;
 let grid = [];
 let revealedCount = 0;
 let flagCount = 0;
-let mineElem = document.getElementById("mineCount");
-let tailleElem = document.getElementById("size");
+let elemMine = document.getElementById("mineCount");
+let elemSize = document.getElementById("size");
 let minePercentElem = document.getElementById("minePercent");
+
 
 startBtn.onclick = () => startGame();
 
@@ -23,6 +25,7 @@ function startGame() {
     calculateNumbers();
     renderGrid();
 }
+
 
 function createGrid() {
     for (let y = 0; y < size; y++) {
@@ -61,15 +64,15 @@ function calculateNumbers() {
 function renderGrid() {
     do {
         forEachCell(cell => {
-        const div = document.createElement("div");
+        const div = document.createElement("div");  
         div.className = "cell";
 
         div.oncontextmenu = e => {
             e.preventDefault();
-            handleClick(cell, div, false);
+            handleClick(cell, false);
         };
 
-        div.onclick = () => handleClick(cell, div, true);
+        div.onclick = () => handleClick(cell, true);
 
         cell.div = div;
         game.appendChild(div);
@@ -99,12 +102,12 @@ function canGenerateZero() {
     return false;
 }
 
-function handleClick(cell, div, leftClick) {
-    if (!cell.revealed) handlePrimaryAction(cell, div, leftClick);
-    else handleSecondaryAction(cell, div, leftClick);
+function handleClick(cell, leftClick) {
+    if (!cell.revealed) handlePrimaryAction(cell, leftClick);
+    else handleSecondaryAction(cell, leftClick);
 }
 
-function handlePrimaryAction(cell, div, leftClick) {
+function handlePrimaryAction(cell, leftClick) {
     const mode = document.getElementById("mode").value;
     if (leftClick) {
         if (mode === "mine" || cell.div.classList.contains("zero")) {
@@ -121,7 +124,7 @@ function handlePrimaryAction(cell, div, leftClick) {
     }
 }
 
-function handleSecondaryAction(cell, div, leftClick) {
+function handleSecondaryAction(cell, leftClick) {
     const mode = document.getElementById("mode").value;
     const neighbors = getNeighbors(cell);
 
@@ -162,7 +165,7 @@ function handleSecondaryAction(cell, div, leftClick) {
 }
 
 
-//todo ajouter fonctionnalités incrémentales comme erreurs possibles, chronomètre, score, niveaux, sauvegarde,indicateur mines restantes
+//todo ajouter fonctionnalités incrémentales comme erreurs possibles, score, niveaux, sauvegarde
 function revealCell(cell) {
     if (cell.revealed || cell.flagged) return;
 
@@ -240,7 +243,7 @@ function forEachCell(fn) {
     }
 }
 
-tailleElem.addEventListener("change", (e) => {
+elemSize.addEventListener("change", (e) => {
     let val = parseInt(e.target.value);
     if (val < 5) val = 5;
     if (val > 30) val = 30;
@@ -257,11 +260,11 @@ minePercentElem.addEventListener("change", (e) => {
 });
 
 function updateMineCount() {
-    size = parseInt(tailleElem.value);
+    size = parseInt(elemSize.value);
     let percent = parseInt(minePercentElem.value);
     mineCount = Math.floor(size * size * percent / 100);
     console.log(size + " * " + size + " * " + percent + " / 100 = " + mineCount);
-    mineElem.textContent = mineCount;
+    elemMine.textContent = mineCount;
 }
 
 startGame()
