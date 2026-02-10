@@ -1,10 +1,12 @@
 /* popup logic */
 
+
+/* todo ajouter mdp oublié et pas encore de compte */
+
 let popupaccount = document.getElementById("popup-account");
 let popuplogin = document.getElementById("popup-login");
 let popupsignup = document.getElementById("popup-signup");
-
-
+let popupaccountConnected = document.getElementById("popup-accountConnected");
 
 function togglePopup(e) {
     if (e.classList.contains("popupVisible")) {
@@ -17,6 +19,11 @@ function togglePopup(e) {
 document.getElementById("account-btn").addEventListener("click", function() {
     if (popupaccount.getAttribute("data-logged-in") !== "true") {
         togglePopup(popupaccount);
+        popuplogin.classList.remove("popupVisible");
+        popupsignup.classList.remove("popupVisible");
+    } else {
+        togglePopup(popupaccountConnected);
+        popupaccount.classList.remove("popupVisible");
         popuplogin.classList.remove("popupVisible");
         popupsignup.classList.remove("popupVisible");
     }
@@ -33,12 +40,6 @@ document.getElementById("signupButton").addEventListener("click", function() {
     togglePopup(popupaccount);
 });
 
-for (let btn of document.getElementsByClassName("close")) {
-    btn.addEventListener("click", function() {
-        btn.parentElement.classList.remove("popupVisible");
-    });
-}
-
 for (let e of document.getElementsByClassName("popup")) {//ajout des composants commun aux popup
     let close = document.createElement("div");
     close.className = "close";
@@ -46,47 +47,15 @@ for (let e of document.getElementsByClassName("popup")) {//ajout des composants 
     e.appendChild(close);
 }
 
-/* todo ajouter mdp oublié et pas encore de compte */
-/* todo ajouter le refus de connexion */
-/* todo ajouter la deconnexion */
+for (let btn of document.getElementsByClassName("close")) {
+    btn.addEventListener("click", function() {
+        btn.parentElement.classList.remove("popupVisible");
+    });
+}
 
 /* connexion logic */
-
-function getUsers() {
-    return JSON.parse(localStorage.getItem("users")) || [];
-}
-
-function saveUsers(users) {
-    localStorage.setItem("users", JSON.stringify(users));
-}
-
-function setCurrentUser(username) {
-    localStorage.setItem("currentUser", username);
-    document.querySelector(".accountName").textContent = username;
-}
-
-function loadCurrentUser() {
-    const user = localStorage.getItem("currentUser");
-    if (user) {
-        document.querySelector(".accountName").textContent = user;
-    }
-}
-
-async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-    return Array.from(new Uint8Array(hashBuffer))
-        .map(b => b.toString(16).padStart(2, "0"))
-        .join("");
-}
-
-
-function logout() {
-    localStorage.removeItem("currentUser");
-    document.querySelector(".accountName").textContent = "";
-    popupaccount.setAttribute("data-logged-in", "false");
-    popupaccount.classList.remove("connected");
+if (popupaccount.getAttribute("data-logged-in") === "true") {
+    document.querySelector(".accountName").textContent = localStorage.getItem("currentUser");
 }
 
 function connectUser(username) {
@@ -94,9 +63,10 @@ function connectUser(username) {
     popupsignup.classList.remove("popupVisible");
     popupaccount.setAttribute("data-logged-in", "true");
     popupaccount.classList.add("connected");
+    popupaccount.getElementsByTagName("h1")[0].textContent = "Bonjour," + document.querySelector(".accountName").textContent + " vous êtes connecté !";
     setTimeout(() => { 
         logout();
-    }, 30000);
+    }, (15 * 60 * 1000) );
 }
 
 
@@ -117,6 +87,7 @@ document.getElementById("signupForm").addEventListener("submit", async function 
     users.push({ username, passwordHash });
     saveUsers(users);
     connectUser(username);
+    togglePopup(popupsignup);
 });
 
 
@@ -131,11 +102,27 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     const user = users.find(
         u => u.username === username && u.passwordHash === passwordHash
     );
-    if (!user) { /* todo ajouter le refus de connexion sans alert */
+    if (!user) {
         alert("Identifiants incorrects");
         return;
     }
     connectUser(username);
+    togglePopup(popuplogin);
 });
 
 loadCurrentUser();
+
+/* ---------- LOGOUT ---------- */
+
+function logout() {
+    localStorage.removeItem("currentUser");
+    document.querySelector(".accountName").textContent = "";
+    popupaccount.setAttribute("data-logged-in", "false");
+    popupaccount.classList.remove("connected");
+}
+
+document.getElementById("logoutForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    logout();
+    togglePopup(popupaccountConnected);
+});
