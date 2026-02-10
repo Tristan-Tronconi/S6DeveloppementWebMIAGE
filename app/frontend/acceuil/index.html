@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>page acceuil</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="/acceuil/css/style.css">
 </head>
 <body>
     <header>
         <nav>
-            <a href=""><img src="./assets/images/template/Logo.png" alt="Logo"></a>
+            <a href="/"><img src="/acceuil/assets/images/template/Logo.png" alt="Logo"></a>
             <div class="navLinks">
-                <a href="index.html">Accueil</a>
+                <a href="/">Accueil</a>
                 <a href="about.html">À propos</a>
                 <div class="account" id="account-btn">
-                    <img src="./assets/images/Icone login.png" alt="Icone account">
+                    <img src="/acceuil/assets/images/Icone login.png" alt="Icone account">
                     <p class="accountName"></p>
                 </div>
             </div>
@@ -43,11 +43,17 @@
                     <button type="submit">Inscription</button>
                 </form>
             </div>
+            <div class="accountConnected popup" id="popup-accountConnected">
+                <h1>erreur de js</h1>
+                <form id="logoutForm"></form>
+                <button type="submit">se déconnecter</button>
+            </div>
+
         </nav>
     </header>
     <main>
         <div class="baniere">
-            <img src="./assets/images/template/banner.png" alt="banniere du jeu">
+            <img src="/acceuil/assets/images/template/banner.png" alt="banniere du jeu">
         </div>
         <div class="presentation">
             <h1>Le projet</h1>
@@ -67,9 +73,9 @@
                 </div>
             </div>
             <div class="contenu">
-                <a href="./Jeu_demineur.html"><img src="./assets/images/game1_demineur.png" alt="jeu1"></a>
-                <a href="./jeu_hack&slash.html"><img src="./assets/images/template/game2.png" alt="jeu2"></a>
-                <a href=""><img src="./assets/images/template/game3.png" alt="jeu3"></a>
+                <a href="/demineur"><img src="/acceuil/assets/images/game1_demineur.png" alt="jeu1"></a>
+                <a href="/hack&slash"><img src="/acceuil/assets/images/template/game2.png" alt="jeu2"></a>
+                <a href="/"><img src="/acceuil/assets/images/template/game3.png" alt="jeu3"></a>
             </div>
         </div>
     </main>
@@ -82,6 +88,6 @@
             </div>
         </div>
     </footer>
-    <script src="./js/main.js"></script>
+    <script src="/acceuil/js/main.js"></script>
 </body>
 </html>
