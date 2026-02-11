@@ -17,18 +17,25 @@ function togglePopup(e) {
 }
 
 document.getElementById("account-btn").addEventListener("click", function() {
-    if (popupaccount.getAttribute("data-logged-in") !== "true") {
-        togglePopup(popupaccount);
-        popuplogin.classList.remove("popupVisible");
-        popupsignup.classList.remove("popupVisible");
-    } else {
+    if (getCookie("userConnected") === "true") {
         togglePopup(popupaccountConnected);
         popupaccount.classList.remove("popupVisible");
         popuplogin.classList.remove("popupVisible");
         popupsignup.classList.remove("popupVisible");
+    } else {
+        togglePopup(popupaccount);
+        popuplogin.classList.remove("popupVisible");
+        popupsignup.classList.remove("popupVisible");
+        popupaccountConnected.classList.remove("popupVisible");
     }
     
 });
+
+if (getCookie("userConnected") === "true") {
+    document.querySelector(".accountName").textContent = localStorage.getItem("currentUser");
+} else {
+    document.querySelector(".accountName").textContent = "";
+}
 
 document.getElementById("loginButton").addEventListener("click", function() {
     togglePopup(popuplogin);
@@ -54,14 +61,11 @@ for (let btn of document.getElementsByClassName("close")) {
 }
 
 /* connexion logic */
-if (popupaccount.getAttribute("data-logged-in") === "true") {
-    document.querySelector(".accountName").textContent = localStorage.getItem("currentUser");
-}
 
 function connectUser(username) {
     setCurrentUser(username);
     popupsignup.classList.remove("popupVisible");
-    popupaccount.setAttribute("data-logged-in", "true");
+    setCookie("userConnected", username, { path: "/", maxAge: 15 * 60 * 1000 });
     popupaccount.classList.add("connected");
     popupaccount.getElementsByTagName("h1")[0].textContent = "Bonjour," + document.querySelector(".accountName").textContent + " vous êtes connecté !";
     setTimeout(() => { 
@@ -71,6 +75,7 @@ function connectUser(username) {
 
 
 /* ---------- SIGNUP ---------- */
+
 
 document.getElementById("signupForm").addEventListener("submit", async function (e) {
     e.preventDefault();
@@ -117,7 +122,7 @@ loadCurrentUser();
 function logout() {
     localStorage.removeItem("currentUser");
     document.querySelector(".accountName").textContent = "";
-    popupaccount.setAttribute("data-logged-in", "false");
+    setCookie("userConnected", "false", { path: "/", maxAge: 0 });
     popupaccount.classList.remove("connected");
 }
 

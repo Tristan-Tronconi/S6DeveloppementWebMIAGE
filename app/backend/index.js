@@ -6,7 +6,7 @@ dotenv.config();
 const port = process.env.PORT || 4000;
 const useDB = connectDB();
 
-const path = require("path");
+const path = require("path"); 
 
 app.use(express.static(path.join(__dirname, "..", "frontend")));
 app.use("/",express.static(path.join(__dirname, "..", "frontend", "acceuil")));
