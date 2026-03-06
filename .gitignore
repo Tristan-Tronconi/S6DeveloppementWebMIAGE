@@ -1,0 +1,9 @@
+node_modules
+.env
+/Hazard-Arena/
+.idea
+.DS_Store
+.vscode
+.iml
+dist
+/build/
