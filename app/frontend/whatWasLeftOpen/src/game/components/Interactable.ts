@@ -1,0 +1,1 @@
+//todo herite de statefull;si l'objet est focus il utilise l'huD correspondant à l'objet et affiche le texte mis en parametre(c'est  un nom de paramettre qui correspond au texte du json langue) ou par default si on appuie sur e l'objet disparait et est mis dans l'inventaire

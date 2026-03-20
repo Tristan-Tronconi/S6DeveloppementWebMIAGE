@@ -14,20 +14,6 @@ app.use("/whatWasLeftOpen/src", (req, res) => {
   res.status(404).send("Not found");
 });
 app.use("/whatWasLeftOpen",express.static(whatWasLeftOpenDistPath));
-// app.use(
-//   "/whatWasLeftOpen",
-//   (req, res, next) => {
-//     res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-//     res.set("Pragma", "no-cache");
-//     res.set("Expires", "0");
-//     next();
-//   },
-//   express.static(whatWasLeftOpenDistPath, {
-//     etag: false,
-//     lastModified: false,
-//     maxAge: 0,
-//   })
-// );
 app.use("/",express.static(path.join(__dirname, "..", "frontend", "acceuil")));
 app.use("/demineur",express.static(path.join(__dirname, "..", "frontend", "demineur")));
 app.use("/hack&slash",express.static(path.join(__dirname, "..", "frontend", "hack&slash", "Hazard-Arena")));

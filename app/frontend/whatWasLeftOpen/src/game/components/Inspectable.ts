@@ -1,0 +1,1 @@
+//todo hérite de interractable quand interraction affiche une description de l'objet met en pause le jeu (pas le menu) et permet de faire tourner l'objet avec les fleches et la souris  et en réappuyant sur e l'objet n'est pas mis dans l'inventaire mais est remis à sa place  (mettre un paramettre pour laisser l'interraction par default)

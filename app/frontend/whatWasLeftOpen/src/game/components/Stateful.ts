@@ -1,0 +1,1 @@
+//todo c'est un item qui a un état binaire (ouvert/fermé,allumé/éteint,visible/invisible) et qui peut être interractif ou inspectable selon les cas

@@ -11,4 +11,10 @@ export class WorldFacade {
 		const corridor = new Corridor(this.engine, this.canvas);
 		return corridor.createScene();
 	}
+
+	public createApartmentScene(): Scene {
+
+		const apartment = new Apartment(this.engine, this.canvas);
+		return apartment.createScene();
+	}
 }
