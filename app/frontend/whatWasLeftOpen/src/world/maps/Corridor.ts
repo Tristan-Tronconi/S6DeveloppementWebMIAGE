@@ -102,6 +102,36 @@ export class Corridor {
 		endWall.material = wallMaterial;
 		endWall.checkCollisions = true;
 
+		const startWall = MeshBuilder.CreateBox(
+			"startWall",
+			{
+				width: this.layout.floorWidth,
+				height: this.layout.wallHeight,
+				depth: this.layout.wallThickness,
+			},
+			scene,
+		);
+		startWall.position = new Vector3(0, this.layout.wallHeight / 2, -(this.layout.floorLength / 2));
+		startWall.material = wallMaterial;
+		startWall.checkCollisions = true;
+
+		const ceiling = MeshBuilder.CreateGround(
+			"ceiling",
+			{
+				width: this.layout.floorWidth,
+				height: this.layout.floorLength,
+			},
+			scene,
+		);
+		ceiling.position = new Vector3(0, this.layout.wallHeight, 0);
+		ceiling.rotation.z = Math.PI;
+		ceiling.checkCollisions = true;
+
+		const ceilingMaterial = new StandardMaterial("ceilingMat", scene);
+		ceilingMaterial.diffuseColor = new Color3(0.3, 0.3, 0.3);
+		ceilingMaterial.specularColor = new Color3(0, 0, 0);
+		ceiling.material = ceilingMaterial;
+
 		scene.onPointerDown = () => {
 			if (document.pointerLockElement !== this.canvas) {
 				this.canvas.requestPointerLock();
