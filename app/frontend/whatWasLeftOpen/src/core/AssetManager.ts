@@ -127,3 +127,4 @@ export class AssetManager {
 		return `${this.basePath}${normalized}`;
 	}
 }
+// est compatible avec barre d e progression

@@ -1,32 +1,46 @@
-import { Engine, Scene } from "@babylonjs/core";
+import { DirectionalLight, Engine, HemisphericLight, Scene, Vector3 } from "@babylonjs/core";
+import { Player } from "../entities/Player";
 import { Corridor } from "../../world/maps/Corridor";
-import { Apartment } from "../../world/maps/Apartment";
+import { OldChamber } from "../../world/maps/OldChamber";
 
 export class WorldFacade {
-	private corridorScene: Scene | null = null;
-	private apartmentScene: Scene | null = null;
+	private worldScene: Scene | null = null;
+
 	public constructor(
 		private readonly engine: Engine,
 		private readonly canvas: HTMLCanvasElement,
 	) {}
 
-	public getCorridorScene(): Scene {
-		if (this.corridorScene && this.corridorScene.isDisposed) {
-			this.corridorScene = null;
+	public getWorldScene(player: Player): Scene {
+		if (this.worldScene && this.worldScene.isDisposed) {
+			this.worldScene = null;
 		}
-		if (!this.corridorScene) {
-			this.corridorScene = new Corridor(this.engine, this.canvas).createScene();
-		}
-		return this.corridorScene;
-	}
 
-	public getApartmentScene(): Scene {
-		if (this.apartmentScene && this.apartmentScene.isDisposed) {
-			this.apartmentScene = null;
+		if (!this.worldScene) {
+			this.worldScene = new Scene(this.engine);
+			this.worldScene.collisionsEnabled = true;
+			this.worldScene.gravity = new Vector3(0, -1, 0);
+
+			const corridor = new Corridor();
+			player.createAndAttachCamera(this.worldScene, this.canvas, corridor.spawnPoint);
+
+			const hemiLight = new HemisphericLight("ambient", new Vector3(0, 1, 0), this.worldScene);
+			hemiLight.intensity = 0.65;
+
+			const dirLight = new DirectionalLight("sun", new Vector3(0, -1, 1), this.worldScene);
+			dirLight.position = new Vector3(0, 20, -25);
+			dirLight.intensity = 0.4;
+
+			const corridorConnection = corridor.build(this.worldScene);
+			new OldChamber().build(this.worldScene, corridorConnection);
+
+			this.worldScene.onPointerDown = () => {
+				if (document.pointerLockElement !== this.canvas) {
+					this.canvas.requestPointerLock();
+				}
+			};
 		}
-		if (!this.apartmentScene) {
-			this.apartmentScene = new Apartment(this.engine, this.canvas).createScene();
-		}
-		return this.apartmentScene;
+
+		return this.worldScene;
 	}
 }

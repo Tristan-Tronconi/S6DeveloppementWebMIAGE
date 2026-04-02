@@ -1,4 +1,5 @@
 import { KeyboardEventTypes, Scene, UniversalCamera, Vector3 } from "@babylonjs/core";
+import { Player } from "../game/entities/Player";
 import { HUD } from "../ui/HUD";
 
 type InputManagerOptions = {
@@ -15,8 +16,8 @@ export class InputManager {
 		this.options = options;
 	}
 
-	public attachPlayerControls(scene: Scene): void {
-		const playerCamera = scene.getCameraByName("playerCamera");
+	public attachPlayerControls(scene: Scene, player: Player): void {
+		const playerCamera = player.getCamera();
 		if (!(playerCamera instanceof UniversalCamera)) {
 			return;
 		}
@@ -36,7 +37,6 @@ export class InputManager {
 
 		let canJump = false;
 		let jumpKeyDown = false;
-
 		scene.onBeforeRenderObservable.add(() => {
 			const grounded = playerCamera.position.y <= playerCamera.ellipsoid.y + 0.15;
 			canJump = grounded && playerCamera.cameraDirection.y <= 0;
@@ -81,7 +81,6 @@ export class InputManager {
 
 			const isDown = keyboardInfo.type === KeyboardEventTypes.KEYDOWN;
 			const { code } = keyboardInfo.event;
-            console.log(`Key event: ${code} (${isDown ? "down" : "up"})`);
 			switch (code) {
 				case "ArrowUp":
 				case "KeyW":

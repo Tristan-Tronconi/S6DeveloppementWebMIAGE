@@ -32,3 +32,5 @@ export class TriggerSystem {
 		}
 	}
 }
+
+// compatible avec on enter trigger actiontrigger

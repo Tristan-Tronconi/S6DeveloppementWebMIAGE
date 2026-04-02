@@ -1,143 +1,125 @@
 import {
 	Color3,
-	DirectionalLight,
-	Engine,
-	HemisphericLight,
 	MeshBuilder,
 	Scene,
 	StandardMaterial,
-	UniversalCamera,
 	Vector3,
 } from "@babylonjs/core";
-import { CorridorLayout } from "../layout/CorridorLayout";
+import { RoomLayout } from "../layout/CorridorLayout";
+
+export interface CorridorConnection {
+	endZ: number;
+	rightWallX: number;
+	doorWidth: number;
+	doorHeight: number;
+	doorCenterX: number;
+	wallHeight: number;
+	wallThickness: number;
+}
 
 export class Corridor {
-	public constructor(
-		private readonly engine: Engine,
-		private readonly canvas: HTMLCanvasElement,
-		private readonly layout: CorridorLayout = new CorridorLayout(),
-	) {}
+	public constructor(private readonly layout: RoomLayout = new RoomLayout()) {}
 
-	public createScene(): Scene {
-		const scene = new Scene(this.engine);
-		scene.collisionsEnabled = true;
-		scene.gravity = new Vector3(0, -1, 0);
+	public get spawnPoint(): Vector3 {
+		return this.layout.spawnPoint;
+	}
 
-		const camera = new UniversalCamera("playerCamera", this.layout.spawnPoint, scene);
-		camera.attachControl(this.canvas, true);
-		camera.speed = 0.45;
-		camera.angularSensibility = 4000;
-		camera.inertia = 0.15;
-		camera.minZ = 0.1;
-		camera.applyGravity = true;
-		camera.checkCollisions = true;
-		camera.ellipsoid = new Vector3(0.5, 0.9, 0.5);
-		camera.keysUp = [];
-		camera.keysDown = [];
-		camera.keysLeft = [];
-		camera.keysRight = [];
-
-		const hemiLight = new HemisphericLight("ambient", new Vector3(0, 1, 0), scene);
-		hemiLight.intensity = 0.65;
-
-		const dirLight = new DirectionalLight("sun", new Vector3(0, -1, 1), scene);
-		dirLight.position = new Vector3(0, 20, -25);
-		dirLight.intensity = 0.4;
-
+	public build(scene: Scene): CorridorConnection {
 		const floor = MeshBuilder.CreateGround(
-			"floor",
-			{
-				width: this.layout.floorWidth,
-				height: this.layout.floorLength,
-			},
+			"corridorFloor", { width: this.layout.floorWidth, height: this.layout.floorLength },
 			scene,
 		);
 		floor.checkCollisions = true;
 
-		const floorMaterial = new StandardMaterial("floorMat", scene);
+		const floorMaterial = new StandardMaterial("corridorFloorMat", scene);
 		floorMaterial.diffuseColor = new Color3(0.28, 0.28, 0.28);
 		floorMaterial.specularColor = new Color3(0, 0, 0);
 		floor.material = floorMaterial;
 
-		const wallMaterial = new StandardMaterial("wallMat", scene);
+		const wallMaterial = new StandardMaterial("corridorWallMat", scene);
 		wallMaterial.diffuseColor = new Color3(0.55, 0.55, 0.58);
 		wallMaterial.specularColor = new Color3(0, 0, 0);
+		const width = this.layout.wallThickness;
+		const height = this.layout.wallHeight;
+		const length = this.layout.floorLength;
+		const doorwayWidth = 3;
+		const doorwayHeight = 3;
 
 		const leftWall = MeshBuilder.CreateBox(
-			"leftWall",
-			{
-				width: this.layout.wallThickness,
-				height: this.layout.wallHeight,
-				depth: this.layout.floorLength,
-			},
+			"corridorLeftWall", { width, height, depth: length },
 			scene,
 		);
-		leftWall.position = new Vector3(-(this.layout.floorWidth / 2), this.layout.wallHeight / 2, 0);
+		leftWall.position = new Vector3(-(this.layout.floorWidth / 2), height / 2, 0);
 		leftWall.material = wallMaterial;
 		leftWall.checkCollisions = true;
 
 		const rightWall = MeshBuilder.CreateBox(
-			"rightWall",
-			{
-				width: this.layout.wallThickness,
-				height: this.layout.wallHeight,
-				depth: this.layout.floorLength,
-			},
+			"corridorRightWall", { width, height, depth: length },
 			scene,
 		);
-		rightWall.position = new Vector3(this.layout.floorWidth / 2, this.layout.wallHeight / 2, 0);
+		rightWall.position = new Vector3(this.layout.floorWidth / 2, height / 2, 0);
 		rightWall.material = wallMaterial;
 		rightWall.checkCollisions = true;
 
-		const endWall = MeshBuilder.CreateBox(
-			"endWall",
-			{
-				width: this.layout.floorWidth,
-				height: this.layout.wallHeight,
-				depth: this.layout.wallThickness,
-			},
+		const sideWallWidth = (this.layout.floorWidth - doorwayWidth) / 2;
+		const endLeftWall = MeshBuilder.CreateBox(
+			"corridorEndWallLeft",
+			{ width: sideWallWidth, height, depth: width },
 			scene,
 		);
-		endWall.position = new Vector3(0, this.layout.wallHeight / 2, this.layout.floorLength / 2);
-		endWall.material = wallMaterial;
-		endWall.checkCollisions = true;
+		endLeftWall.position = new Vector3(-(doorwayWidth / 2) - (sideWallWidth / 2), height / 2, length / 2);
+		endLeftWall.material = wallMaterial;
+		endLeftWall.checkCollisions = true;
+
+		const endRightWall = MeshBuilder.CreateBox(
+			"corridorEndWallRight",
+			{ width: sideWallWidth, height, depth: width },
+			scene,
+		);
+		endRightWall.position = new Vector3((doorwayWidth / 2) + (sideWallWidth / 2), height / 2, length / 2);
+		endRightWall.material = wallMaterial;
+		endRightWall.checkCollisions = true;
+
+		const lintelHeight = Math.max(0.4, height - doorwayHeight);
+		const endTopWall = MeshBuilder.CreateBox(
+			"corridorEndWallTop",
+			{ width: doorwayWidth, height: lintelHeight, depth: width },
+			scene,
+		);
+		endTopWall.position = new Vector3(0, doorwayHeight + lintelHeight / 2, length / 2);
+		endTopWall.material = wallMaterial;
+		endTopWall.checkCollisions = true;
 
 		const startWall = MeshBuilder.CreateBox(
-			"startWall",
-			{
-				width: this.layout.floorWidth,
-				height: this.layout.wallHeight,
-				depth: this.layout.wallThickness,
-			},
+			"corridorStartWall",
+			{ width: this.layout.floorWidth, height, depth: width },
 			scene,
 		);
-		startWall.position = new Vector3(0, this.layout.wallHeight / 2, -(this.layout.floorLength / 2));
+		startWall.position = new Vector3(0, height / 2, -(length / 2));
 		startWall.material = wallMaterial;
 		startWall.checkCollisions = true;
 
 		const ceiling = MeshBuilder.CreateGround(
-			"ceiling",
-			{
-				width: this.layout.floorWidth,
-				height: this.layout.floorLength,
-			},
+			"corridorCeiling", { width: this.layout.floorWidth, height: length },
 			scene,
 		);
-		ceiling.position = new Vector3(0, this.layout.wallHeight, 0);
+		ceiling.position = new Vector3(0, height, 0);
 		ceiling.rotation.z = Math.PI;
 		ceiling.checkCollisions = true;
 
-		const ceilingMaterial = new StandardMaterial("ceilingMat", scene);
+		const ceilingMaterial = new StandardMaterial("corridorCeilingMat", scene);
 		ceilingMaterial.diffuseColor = new Color3(0.3, 0.3, 0.3);
 		ceilingMaterial.specularColor = new Color3(0, 0, 0);
 		ceiling.material = ceilingMaterial;
 
-		scene.onPointerDown = () => {
-			if (document.pointerLockElement !== this.canvas) {
-				this.canvas.requestPointerLock();
-			}
+		return {
+			endZ: length / 2,
+			rightWallX: this.layout.floorWidth / 2,
+			doorWidth: doorwayWidth,
+			doorHeight: doorwayHeight,
+			doorCenterX: 0,
+			wallHeight: height,
+			wallThickness: width,
 		};
-
-		return scene;
 	}
 }

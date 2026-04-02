@@ -5,6 +5,7 @@ import { AudioManager } from "./core/AudioManager";
 import { EngineService } from "./core/Engine";
 import { InputManager } from "./core/InputManager";
 import { SceneManager } from "./core/SceneManager";
+import { Player } from "./game/entities/Player";
 import { WorldFacade } from "./game/facades/WorldFacade";
 import { MainMenu } from "./ui/MainMenu";
 import { HUD } from "./ui/HUD";
@@ -31,6 +32,7 @@ const sceneManager = new SceneManager();
 const worldFacade = new WorldFacade(engineService.engine, canvas);
 const hud = new HUD(document.body);
 const inputManager = new InputManager(hud);
+const player = new Player();
 
 const assetManager = new AssetManager();
 const audioManager = new AudioManager();
@@ -45,9 +47,8 @@ void bootstrapCoreServices();
 const mainMenu = new MainMenu(document.body, async () => {
 	await bootstrapCoreServices();
 
-	const activeScene = worldFacade.getCorridorScene();
-	//const activeScene = worldFacade.getApartmentScene();
-	inputManager.attachPlayerControls(activeScene);
+	const activeScene = worldFacade.getWorldScene(player);
+	inputManager.attachPlayerControls(activeScene, player);
 	sceneManager.setScene(activeScene);
 	mainMenu.hide();
 	

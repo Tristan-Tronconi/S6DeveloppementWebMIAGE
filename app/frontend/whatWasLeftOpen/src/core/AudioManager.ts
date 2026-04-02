@@ -1,6 +1,5 @@
 import { Howl, Howler } from "howler";
 import { AssetManager } from "./AssetManager";
-//todo ajouter de la musique et des effets sonores pour tester
 
 type AudioMap = Map<string, Howl>;
 

@@ -1,6 +1,6 @@
 import { Vector3 } from "@babylonjs/core";
 
-export class CorridorLayout {
+export class RoomLayout {
 	public readonly floorWidth = 12;
 	public readonly floorLength = 120;
 	public readonly wallHeight = 4;
