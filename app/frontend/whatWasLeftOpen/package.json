@@ -9,12 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@babylonjs/core": "^8.56.1",
-    "@babylonjs/inspector": "^8.56.1",
+    "@babylonjs/core": "^9.3.1",
+    "@babylonjs/inspector": "^9.3.1",
     "howler": "^2.2.4"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
-    "vite": "^8.0.1"
+    "@types/howler": "^2.2.12",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.8"
   }
 }

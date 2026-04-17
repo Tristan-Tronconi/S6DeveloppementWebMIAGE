@@ -115,6 +115,26 @@ export class AudioManager {
 		Howler.volume(volume);
 	}
 
+	public setMusicVolume(volume: number): void {
+		for (const [, music] of this.musics) {
+			music.volume(volume);
+		}
+	}
+
+	public setSfxVolume(volume: number): void {
+		for (const [, sfx] of this.soundEffects) {
+			sfx.volume(volume);
+		}
+	}
+
+	public setVoiceVolume(volume: number): void {
+		// Si on a des voix séparées, on les gère ici
+		// Pour l'instant, on applique aussi aux soundEffects si on les utilise pour les voix
+		for (const [, sound] of this.soundEffects) {
+			sound.volume(volume);
+		}
+	}
+
 	public stopAll(): void {
 		Howler.stop();
 		this.currentMusicKey = null;

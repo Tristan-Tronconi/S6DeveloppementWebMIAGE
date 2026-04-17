@@ -2,9 +2,9 @@ import {
 	Color3,
 	MeshBuilder,
 	Scene,
-	StandardMaterial,
 	Vector3,
 } from "@babylonjs/core";
+import { MaterialFactory } from "../../rendering/MaterialFactory";
 import { CorridorConnection } from "./Corridor";
 
 export class OldChamber {
@@ -26,14 +26,22 @@ export class OldChamber {
 		floor.position = new Vector3(chamberCenterX, 0, chamberCenterZ);
 		floor.checkCollisions = true;
 
-		const floorMaterial = new StandardMaterial("oldChamberFloorMat", scene);
-		floorMaterial.diffuseColor = new Color3(0.24, 0.22, 0.2);
-		floorMaterial.specularColor = new Color3(0, 0, 0);
+		const floorMaterial = MaterialFactory.createFloorMaterial(
+			scene,
+			"oldChamberFloorMat",
+			MaterialFactory.getMainFloorTexture(false),
+			Math.max(1, this.width / 2),
+			Math.max(1, this.length / 2),
+		);
 		floor.material = floorMaterial;
 
-		const wallMaterial = new StandardMaterial("oldChamberWallMat", scene);
-		wallMaterial.diffuseColor = new Color3(0.46, 0.44, 0.42);
-		wallMaterial.specularColor = new Color3(0, 0, 0);
+		const wallMaterial = MaterialFactory.createWallMaterial(
+			scene,
+			"oldChamberWallMat",
+			MaterialFactory.getMainWallTexture(false),
+			Math.max(1, this.length / 2),
+			Math.max(1, wallHeight / 2),
+		);
 
 		const rightWall = MeshBuilder.CreateBox(
 			"oldChamberRightWall",
@@ -119,9 +127,12 @@ export class OldChamber {
 		ceiling.rotation.z = Math.PI;
 		ceiling.checkCollisions = true;
 
-		const ceilingMaterial = new StandardMaterial("oldChamberCeilingMat", scene);
-		ceilingMaterial.diffuseColor = new Color3(0.27, 0.26, 0.25);
-		ceilingMaterial.specularColor = new Color3(0, 0, 0);
-		ceiling.material = ceilingMaterial;
+		ceiling.material = MaterialFactory.createCeilingMaterial(
+			scene,
+			"oldChamberCeilingMat",
+			MaterialFactory.getMainCeilingTexture(),
+			Math.max(1, this.width / 2),
+			Math.max(1, this.length / 2),
+		);
 	}
 }

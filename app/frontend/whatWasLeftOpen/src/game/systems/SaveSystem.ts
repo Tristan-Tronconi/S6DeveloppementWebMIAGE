@@ -26,8 +26,8 @@ export class SaveSystem {
 	}
 
 	public save(slot: number, state: SaveState): void {
-		if (slot < 1 || slot > 3) {
-			throw new Error("Save slot must be between 1 and 3.");
+		if (slot < 1 || slot > 4) {
+			throw new Error("Save slot must be between 1 and 4.");
 		}
 
 		const key = this.toKey(slot);

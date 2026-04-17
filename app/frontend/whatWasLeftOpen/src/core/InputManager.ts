@@ -1,5 +1,6 @@
 import { KeyboardEventTypes, Scene, UniversalCamera, Vector3 } from "@babylonjs/core";
 import { Player } from "../game/entities/Player";
+import { Inspector } from "@babylonjs/inspector";
 import { HUD } from "../ui/HUD";
 
 type InputManagerOptions = {
@@ -10,13 +11,29 @@ type InputManagerOptions = {
 export class InputManager {
 	private readonly hud: HUD;
 	private readonly options: InputManagerOptions;
+	private isPaused = false;
+	private scene: Scene | null = null;
+	private debugMode = false;
 
 	public constructor(hud: HUD, options: InputManagerOptions = {}) {
 		this.hud = hud;
 		this.options = options;
 	}
 
+	public setPaused(paused: boolean): void {
+		this.isPaused = paused;
+	}
+
+	public setTogglePauseMenuCallback(callback: () => void): void {
+		this.options.onTogglePauseMenu = callback;
+	}
+
+	public setScene(scene: Scene): void {
+		this.scene = scene;
+	}
+
 	public attachPlayerControls(scene: Scene, player: Player): void {
+		this.scene = scene;
 		const playerCamera = player.getCamera();
 		if (!(playerCamera instanceof UniversalCamera)) {
 			return;
@@ -79,6 +96,11 @@ export class InputManager {
 				return;
 			}
 
+			// Si en pause, ignorer tous les événements sauf Echap (pour quitter la pause)
+			if (this.isPaused && keyboardInfo.event.code !== "Escape") {
+				return;
+			}
+
 			const isDown = keyboardInfo.type === KeyboardEventTypes.KEYDOWN;
 			const { code } = keyboardInfo.event;
 			switch (code) {
@@ -114,6 +136,8 @@ export class InputManager {
 					}
 					break;
 				case "Escape":
+				case "Enter":
+				case "NumpadEnter":
 					if (isDown) {
 						this.options.onTogglePauseMenu?.();
 					}
@@ -121,6 +145,11 @@ export class InputManager {
 				case "KeyF":
 					if (isDown) {
 						this.options.onToggleFlashlight?.();
+					}
+					break;
+				case "KeyI":
+					if (isDown && keyboardInfo.event.shiftKey) {
+						this.toggleDebugMode();
 					}
 					break;
 				case "Space":
@@ -139,5 +168,28 @@ export class InputManager {
 					break;
 			}
 		});
+	}
+
+	private toggleDebugMode(): void {
+		if (!this.scene) {
+			console.warn("[InputManager] Scene not available for debug mode");
+			return;
+		}
+
+		this.debugMode = !this.debugMode;
+
+		if (this.debugMode) {
+			console.log("[InputManager] Debug mode enabled");
+			if (Inspector.IsVisible) {
+				Inspector.Hide();
+			} else {
+				Inspector.Show(this.scene, {});
+			}
+		} else {
+			console.log("[InputManager] Debug mode disabled");
+			if (Inspector.IsVisible) {
+				Inspector.Hide();
+			}
+		}
 	}
 }

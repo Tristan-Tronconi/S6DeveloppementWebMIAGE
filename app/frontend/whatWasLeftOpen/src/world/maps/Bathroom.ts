@@ -1,12 +1,11 @@
 import {
-	Color3,
 	Engine,
 	HemisphericLight,
 	MeshBuilder,
 	Scene,
-	StandardMaterial,
 	Vector3,
 } from "@babylonjs/core";
+import { MaterialFactory } from "../../rendering/MaterialFactory";
 
 export class Bathroom {
 	public constructor(private readonly engine: Engine, private readonly canvas: HTMLCanvasElement) {}
@@ -20,14 +19,22 @@ export class Bathroom {
 		const floor = MeshBuilder.CreateGround("bathroomFloor", { width: 6, height: 6 }, scene);
 		floor.checkCollisions = true;
 
-		const floorMaterial = new StandardMaterial("bathroomFloorMat", scene);
-		floorMaterial.diffuseColor = new Color3(0.88, 0.9, 0.92);
-		floorMaterial.specularColor = new Color3(0, 0, 0);
+		const floorMaterial = MaterialFactory.createFloorMaterial(
+			scene,
+			"bathroomFloorMat",
+			MaterialFactory.getMainFloorTexture(false),
+			3,
+			3,
+		);
 		floor.material = floorMaterial;
 
-		const wallMaterial = new StandardMaterial("bathroomWallMat", scene);
-		wallMaterial.diffuseColor = new Color3(0.82, 0.84, 0.87);
-		wallMaterial.specularColor = new Color3(0, 0, 0);
+		const wallMaterial = MaterialFactory.createWallMaterial(
+			scene,
+			"bathroomWallMat",
+			MaterialFactory.getMainWallTexture(false),
+			2,
+			2,
+		);
 
 		const wallDepth = 0.4;
 		const wallHeight = 3;
@@ -56,6 +63,18 @@ export class Bathroom {
 		frontWallRight.position = new Vector3(1.9, wallHeight / 2, -3);
 		frontWallRight.material = wallMaterial;
 		frontWallRight.checkCollisions = true;
+
+		const ceiling = MeshBuilder.CreateGround("bathroomCeiling", { width: 6, height: 6 }, scene);
+		ceiling.position = new Vector3(0, wallHeight, 0);
+		ceiling.rotation.z = Math.PI;
+		ceiling.checkCollisions = true;
+		ceiling.material = MaterialFactory.createCeilingMaterial(
+			scene,
+			"bathroomCeilingMat",
+			MaterialFactory.getMainCeilingTexture(),
+			3,
+			3,
+		);
 
 		scene.onPointerDown = () => {
 			if (document.pointerLockElement !== this.canvas) {
