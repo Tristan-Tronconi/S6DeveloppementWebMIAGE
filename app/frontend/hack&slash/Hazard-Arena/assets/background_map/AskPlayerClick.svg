@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feOffset dx="4" dy="4" in="SourceAlpha" result="off"/>
+      <feGaussianBlur in="off" stdDeviation="2" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0 0.04  0 0 0 0.7 0" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g shape-rendering="crispEdges" filter="url(#shadow)">
+    <rect x="520" y="440" width="880" height="200" fill="none" stroke="#2d2216" stroke-width="10"/>
+    <rect x="535" y="455" width="850" height="170" fill="none" stroke="#8b7352" stroke-width="6"/>
+  </g>
+
+  <text x="960" y="560" text-anchor="middle" dominant-baseline="middle"
+        font-family="'Press Start 2P','Courier New',monospace" font-size="64"
+        fill="#f4e5c6" stroke="#3b2f1d" stroke-width="6" paint-order="stroke fill"
+        letter-spacing="2" shape-rendering="crispEdges">
+    CLICK TO START
+  </text>
+</svg>
