@@ -12,7 +12,7 @@ import { HUD } from "./ui/HUD";
 import { PauseMenu } from "./ui/PauseMenu";
 import { SaveSystem } from "./game/systems/SaveSystem";
 import { SaveState } from "./game/systems/SaveSystem";
-import { Inspector } from "@babylonjs/core";
+import { Inspector } from "@babylonjs/inspector";
 
 console.log("Initializing game...");
 
