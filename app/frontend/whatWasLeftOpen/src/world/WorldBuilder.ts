@@ -1,10 +1,9 @@
-import { Engine, Scene, Vector3 } from "@babylonjs/core";
+import { Engine, Scene, Vector3, MeshBuilder, StandardMaterial, Color3 } from "@babylonjs/core";
 import { Corridor } from "./maps/Corridor";
 import { OldChamber } from "./maps/OldChamber";
 import { Bathroom } from "./maps/Bathroom";
 import { HiddenRoom } from "./maps/HiddenRoom";
 import { NonEuclidianHiddenRoom } from "./maps/NonEuclidianHiddenRoom";
-import { Apartment } from "./maps/Apartment";
 import { Kitchen } from "./maps/Kitchen";
 import { LivingRoom } from "./maps/LivingRoom";
 import { WC } from "./maps/WC";
@@ -103,9 +102,7 @@ export class WorldBuilder {
 				} else if (roomId === "V_BR") {
 					// Utiliser Bathroom temporairement comme chambre
 					const bedroom = new Bathroom();
-					bedroom.createScene().meshes.forEach(mesh => {
-						mesh.position = mesh.position.add(position);
-					});
+					bedroom.build(scene, position);
 				} else if (roomId === "V_LR") {
 					const living = new LivingRoom();
 					living.build(scene, position);
@@ -124,9 +121,7 @@ export class WorldBuilder {
 					kitchen.build(scene, position, "pink");
 				} else if (roomId === "N_BR") {
 					const bedroom = new Bathroom();
-					bedroom.createScene().meshes.forEach(mesh => {
-						mesh.position = mesh.position.add(position);
-					});
+					bedroom.build(scene, position);
 				} else if (roomId === "N_LR") {
 					const living = new LivingRoom();
 					living.build(scene, position, undefined, true);
@@ -164,17 +159,11 @@ export class WorldBuilder {
 
 	private addDebugMarker(scene: Scene, position: Vector3, label: string): void {
 		// Sphère jaune pour marquer la position
-		const marker = (window as any).MeshBuilder?.CreateSphere ||
-			require("@babylonjs/core").MeshBuilder.CreateSphere;
-		if (marker) {
-			const sphere = (window as any).MeshBuilder?.CreateSphere(`${label}_marker`, { diameter: 0.5 }, scene);
-			if (sphere) {
-				sphere.position = position.add(new Vector3(0, 0.25, 0));
-				const mat = new (window as any).StandardMaterial(`${label}_mat`, scene);
-				mat.diffuseColor = new (window as any).Color3(1, 1, 0);
-				sphere.material = mat;
-			}
-		}
+		const sphere = MeshBuilder.CreateSphere(`${label}_marker`, { diameter: 0.5 }, scene);
+		sphere.position = position.add(new Vector3(0, 0.25, 0));
+		const mat = new StandardMaterial(`${label}_mat`, scene);
+		mat.diffuseColor = new Color3(1, 1, 0);
+		sphere.material = mat;
 	}
 
 	private createDoorsForAdjacentRooms(scene: Scene): void {
