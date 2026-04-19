@@ -38,7 +38,7 @@ export class MeshFactory {
 		height: number,
 		position: Vector3,
 	): Mesh {
-		const mesh = MeshBuilder.CreateCylinder(label, { radius, height }, scene);
+		const mesh = MeshBuilder.CreateCylinder(label, { diameter: radius * 2, height }, scene);
 		mesh.position = position;
 		mesh.checkCollisions = true;
 		return mesh;
@@ -54,7 +54,7 @@ export class MeshFactory {
 	): Mesh {
 		const mesh = MeshBuilder.CreateCylinder(
 			label,
-			{ radiusTop, radiusBottom, height },
+			{ diameterTop: radiusTop * 2, diameterBottom: radiusBottom * 2, height },
 			scene,
 		);
 		mesh.position = position;
