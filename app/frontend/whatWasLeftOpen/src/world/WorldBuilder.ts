@@ -101,8 +101,11 @@ export class WorldBuilder {
 					kitchen.build(scene, position, "red");
 				} else if (roomId === "V_BR") {
 					// Utiliser Bathroom temporairement comme chambre
-					const bedroom = new Bathroom();
-					bedroom.build(scene, position);
+					const bedroom = new Bathroom(this.engine, this.canvas);
+					const bedroomScene = bedroom.createScene();
+					bedroomScene.meshes.forEach(mesh => {
+						mesh.position = mesh.position.add(position);
+					});
 				} else if (roomId === "V_LR") {
 					const living = new LivingRoom();
 					living.build(scene, position);
@@ -120,8 +123,11 @@ export class WorldBuilder {
 					const kitchen = new Kitchen();
 					kitchen.build(scene, position, "pink");
 				} else if (roomId === "N_BR") {
-					const bedroom = new Bathroom();
-					bedroom.build(scene, position);
+					const bedroom = new Bathroom(this.engine, this.canvas);
+					const bedroomScene = bedroom.createScene();
+					bedroomScene.meshes.forEach(mesh => {
+						mesh.position = mesh.position.add(position);
+					});
 				} else if (roomId === "N_LR") {
 					const living = new LivingRoom();
 					living.build(scene, position, undefined, true);
