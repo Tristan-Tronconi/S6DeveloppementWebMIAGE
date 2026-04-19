@@ -1,13 +1,5 @@
 {
   "name": "games-on-web",
   "version": "1.0.0",
-  "private": true,
-  "workspaces": [
-    "app/backend",
-    "app/frontend/whatWasLeftOpen"
-  ],
-  "scripts": {
-    "dev": "npm run dev -w app/backend",
-    "build": "npm -w app/frontend/whatWasLeftOpen run build"
-  }
+  "private": true
 }
