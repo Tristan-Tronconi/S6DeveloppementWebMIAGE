@@ -1,3 +1,4 @@
 {
-  "buildCommand": "cd app/frontend/whatWasLeftOpen && npm install && npm run build"
+  "installCommand": "cd app/backend && npm install && cd ../../ && cd app/frontend/whatWasLeftOpen && npm install",
+  "buildCommand": "cd app/frontend/whatWasLeftOpen && npm run build"
 }
