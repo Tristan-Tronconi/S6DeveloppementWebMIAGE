@@ -1,4 +1,0 @@
-{
-  "installCommand": "cd app/backend && npm install && cd ../../ && cd app/frontend/whatWasLeftOpen && npm install && cd ../../",
-  "buildCommand": "cd app/frontend/whatWasLeftOpen && npm run build"
-}
