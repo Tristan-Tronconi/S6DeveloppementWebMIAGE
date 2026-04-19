@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build -w app/frontend/whatWasLeftOpen",
   "outputDirectory": "app/frontend/whatWasLeftOpen/dist",
   "framework": "vite",
   "installCommand": "npm install"
