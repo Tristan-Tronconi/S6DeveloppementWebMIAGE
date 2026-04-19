@@ -8,9 +8,9 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          babylon: ["@babylonjs/core", "@babylonjs/inspector"],
-          howler: ["howler"]
+        manualChunks: (id) => {
+          if (id.includes("babylon")) return "babylon";
+          if (id.includes("howler")) return "howler";
         }
       }
     }
