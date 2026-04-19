@@ -8,6 +8,6 @@
   ],
   "scripts": {
     "dev": "npm run dev -w app/backend",
-    "build": "npm run build -w app/frontend/whatWasLeftOpen && npm run build -w app/backend"
+    "build": "npm run build --workspaces --if-present"
   }
 }
